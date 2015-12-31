@@ -1,0 +1,14 @@
+{
+  "name": "language-futurescript",
+  "version": "0.1.0",
+  "description": "FutureScript language support in Atom",
+  "keywords": [
+  ],
+  "repository": "https://github.com/zhanzhenzhen/atom-language-futurescript",
+  "license": "MIT",
+  "engines": {
+    "atom": ">=1.0.0"
+  },
+  "dependencies": {
+  }
+}

@@ -1,0 +1,140 @@
+name: "FutureScript h1"
+scopeName: "source.fus.h1"
+firstLineMatch: "\\bfus\\b.*\\b((0|1|2)\\.\\d+\\.\\d+)\\b"
+foldingStartMarker: "^\\s*class\\s+\\S.*$|.*(->|<>)\\s*$|.*[\\[{]\\s*$"
+foldingStopMarker: "^\\s*$|^\\s*[}\\]]\\s*$"
+patterns: [
+  {
+    name: "meta.fus.h1"
+    match: "^.*\\bfus\\b.*\\b(\\d+\\.\\d+\\.\\d+)\\b[^\\{]*$"
+  }
+  {
+    name: "meta.fus.h1"
+    begin: "^.*\\bfus\\b.*\\b(\\d+\\.\\d+\\.\\d+)\\b\\s*\\,?\\s*\\{"
+    end: "\\}.*$"
+  }
+  {
+    contentName: "string.quoted.double.fus.h1"
+    begin: "^(\\s*)[^\"]*(?<!\\w)\"$"
+    end: "^\\1\""
+    comment: '''
+      To correctly hightlight it, please do not write any other " in the same line of the multiline string start/end position. This is due to the impossibility of a regular expression. If the regular expression allows it, then consider this example:
+                  "a"
+                  a
+                  "a"
+                  The middle a may be mistakenly highlighted as a multiline string.
+                  
+    '''
+    patterns: [
+      {
+        match: "\\\\(x..|u....|[^xu(])"
+        name: "constant.character.escape.fus.h1"
+      }
+      {
+        include: "#interpolated_fus"
+      }
+    ]
+  }
+  {
+    contentName: "string.quoted.double.fus.h1"
+    begin: "^(\\s*)[^\"]*\\b(v|r|js)\"$"
+    end: "^\\1\"\\w*"
+  }
+  {
+    contentName: "string.quoted.double.fus.h1"
+    begin: "(?<!\\w)\"(?=.)"
+    end: "\""
+    patterns: [
+      {
+        match: "\\\\(x..|u....|[^xu(])"
+        name: "constant.character.escape.fus.h1"
+      }
+      {
+        include: "#interpolated_fus"
+      }
+    ]
+  }
+  {
+    contentName: "string.quoted.double.fus.h1"
+    begin: "\\b(v|r|js)\"(?=.)"
+    end: "\"\\w*"
+  }
+  {
+    name: "comment.block.fus.h1"
+    begin: "(?<!#)###(?!#)"
+    end: "###(?:[ \\t]*\\n)"
+  }
+  {
+    name: "comment.line.number-sign.fus.h1"
+    begin: "#"
+    end: "\\n"
+  }
+  {
+    name: "keyword.control.fus.h1"
+    match: '''
+      (?x)
+                      \\b(?<![\\.\\$])(
+                          above|and|as|catch|delete|do|else|export|finally|from|
+                          if|ifnull|ifvoid|import|in|is|isnt|match|mod|new|nonew|not|or|pause|rem|
+                          static|super|then|throw|try
+                      )(?!\\s*:)\\b
+                  
+    '''
+    comment: "\"from\" should only be bound with \"class\". This implementation is not accurate. But it's hard to make it accurate. Also, \"ifvoid: \" is not hightlighted well."
+  }
+  {
+    name: "keyword.operator.fus.h1"
+    match: '''
+      (?x)
+                      \\+ | (?<!-)-(?!>|-) | \\* | / | \\*\\* | = | /= | <(?!>) | (?<!<)> |
+                      <= | >= | \\|> | \\? | :: | \\| |
+                      '[\\w]*
+                  
+    '''
+  }
+  {
+    name: "constant.language.fus.h1"
+    match: '''
+      (?x)
+                      \\b(?<![\\.\\$])(
+                          false|null|true|void
+                      )(?!\\s*:)\\b
+                  
+    '''
+  }
+  {
+    name: "variable.language.fus.h1"
+    match: '''
+      (?x)
+                      \\b(?<![\\.\\$])(
+                          fun|me|Me|self
+                      )(?!\\s*:)\\b
+                  
+    '''
+  }
+  {
+    name: "storage.type.function.fus.h1"
+    match: "->|<>|--"
+  }
+  {
+    name: "storage.type.class.fus.h1"
+    match: "\\b(?<![\\.\\$])class(?!\\s*:)\\b"
+  }
+]
+repository:
+  interpolated_fus:
+    patterns: [
+      {
+        name: "source.fus.h1.embedded.source"
+        begin: "\\\\\\("
+        end: "\\)"
+        captures:
+          "0":
+            name: "punctuation.section.embedded.fus.h1"
+        patterns: [
+          {
+            include: "$self"
+          }
+        ]
+      }
+    ]
