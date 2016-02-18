@@ -103,6 +103,11 @@ patterns: [
     '''
   }
   {
+    name: "entity.name.function.fus.h1"
+    match: "[\\w\\$][\\w\\.\\$]*\\s*:(?!:)"
+    comment: "In fact this name is wrong, but we must use this name because all well-known themes can highlight this. If use another name such as \"variable\", most likely it won't be highlighted."
+  }
+  {
     name: "variable.language.fus.h1"
     match: '''
       (?x)
