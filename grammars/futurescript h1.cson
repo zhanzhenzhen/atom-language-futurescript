@@ -37,8 +37,18 @@ patterns: [
   }
   {
     contentName: "string.quoted.double.fus.h1"
-    begin: "^(\\s*)[^\"]*\\b(v|r|js)\"$"
+    begin: "^(\\s*)[^\"]*\\b(v|js)\"$"
     end: "^\\1\"\\w*"
+  }
+  {
+    contentName: "string.quoted.double.fus.h1"
+    begin: "^(\\s*)[^\"]*\\br\"$"
+    end: "^\\1\"\\w*"
+    patterns: [
+      {
+        include: "#interpolated_r_fus"
+      }
+    ]
   }
   {
     contentName: "string.quoted.double.fus.h1"
@@ -56,8 +66,22 @@ patterns: [
   }
   {
     contentName: "string.quoted.double.fus.h1"
-    begin: "\\b(v|r|js)\"(?=.)"
+    begin: "\\b(v|js)\"(?=.)"
     end: "\"\\w*"
+  }
+  {
+    contentName: "string.quoted.double.fus.h1"
+    begin: "\\br\"(?=.)"
+    end: "\"\\w*"
+    patterns: [
+      {
+        match: "\\\\\""
+        name: "constant.character.escape.fus.h1"
+      }
+      {
+        include: "#interpolated_r_fus"
+      }
+    ]
   }
   {
     name: "comment.block.fus.h1"
@@ -132,6 +156,22 @@ repository:
       {
         name: "source.fus.h1.embedded.source"
         begin: "\\\\\\("
+        end: "\\)"
+        captures:
+          "0":
+            name: "punctuation.section.embedded.fus.h1"
+        patterns: [
+          {
+            include: "$self"
+          }
+        ]
+      }
+    ]
+  interpolated_r_fus:
+    patterns: [
+      {
+        name: "source.fus.h1.embedded.source"
+        begin: "#\\("
         end: "\\)"
         captures:
           "0":
