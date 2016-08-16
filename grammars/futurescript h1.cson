@@ -75,7 +75,7 @@ patterns: [
     end: "\"\\w*"
     patterns: [
       {
-        match: "\\\\\""
+        match: "\\\\\"|\\\\\\\\"
         name: "constant.character.escape.fus.h1"
       }
       {
